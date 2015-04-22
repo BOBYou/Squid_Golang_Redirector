@@ -21,53 +21,61 @@ import (
 func main() {
 	//fmt.Println(runtime.GOOS)
 	runtime.GOMAXPROCS(runtime.NumCPU())
+	c := make(chan bool)
+	go func() {
+		running := true
 
-	running := true
+		rwing := bufio.NewReader(os.Stdin)
+		for running {
+			data, _, _ := rwing.ReadLine()
+			command := string(data)
 
-	rwing := bufio.NewReader(os.Stdin)
-	for running {
-		data, _, _ := rwing.ReadLine()
-		command := string(data)
+			if len(command) == 0 {
+				running = false
+			} else {
+				command = strings.Split(command, " ")[0]
+				//fmt.Println(command)
+				yn1, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
+				yn2, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
 
-		if len(command) == 0 {
-			running = false
-		} else {
-			command = strings.Split(command, " ")[0]
-			//fmt.Println(command)
-			yn1, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
-			yn2, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
-
-			switch {
-			case yn1:
-				os.Stdout.WriteString(reg_str(command))
-				os.Stdout.Sync()
-			case yn2:
-				os.Stdout.WriteString(reg_str(command))
-				os.Stdout.Sync()
-			default:
-				os.Stdout.WriteString(strings.Join([]string{command, "\n"}, ""))
-				os.Stdout.Sync()
-			}
-
-			/*
-				yn, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
-				if yn {
+				switch {
+				case yn1:
 					os.Stdout.WriteString(reg_str(command))
 					os.Stdout.Sync()
-				} else {
-					yn, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
+				case yn2:
+					os.Stdout.WriteString(reg_str(command))
+					os.Stdout.Sync()
+				default:
+					os.Stdout.WriteString(strings.Join([]string{command, "\n"}, ""))
+					os.Stdout.Sync()
+				}
+
+				/*
+					yn, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
 					if yn {
 						os.Stdout.WriteString(reg_str(command))
 						os.Stdout.Sync()
 					} else {
-						os.Stdout.WriteString("\n")
-						os.Stdout.Sync()
-					}
-				}*/
+						yn, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
+						if yn {
+							os.Stdout.WriteString(reg_str(command))
+							os.Stdout.Sync()
+						} else {
+							os.Stdout.WriteString("\n")
+							os.Stdout.Sync()
+						}
+					}*/
+			}
 		}
-	}
-
+		c <- true
+		//close(c)
+	}()
+	<-c
 }
+
+// func redirect() {
+
+// }
 
 func reg_str(uri string) string {
 	greg := regexp.MustCompile("ajax.googleapis.com/ajax/libs/jquery/")
