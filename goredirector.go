@@ -15,6 +15,7 @@ import (
 	"os"
 	"regexp"
 	"runtime"
+	"strings"
 )
 
 func main() {
@@ -31,21 +32,38 @@ func main() {
 		if len(command) == 0 {
 			running = false
 		} else {
+			command = strings.Split(command, " ")[0]
+			//fmt.Println(command)
+			yn1, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
+			yn2, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
 
-			yn, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
-			if yn {
+			switch {
+			case yn1:
 				os.Stdout.WriteString(reg_str(command))
 				os.Stdout.Sync()
-			} else {
-				yn, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
+			case yn2:
+				os.Stdout.WriteString(reg_str(command))
+				os.Stdout.Sync()
+			default:
+				os.Stdout.WriteString(strings.Join([]string{command, "\n"}, ""))
+				os.Stdout.Sync()
+			}
+
+			/*
+				yn, _ := regexp.MatchString("http://ajax.googleapis.com/ajax/libs/jquery/.+/jquery.min.js.*", command)
 				if yn {
 					os.Stdout.WriteString(reg_str(command))
 					os.Stdout.Sync()
 				} else {
-					os.Stdout.WriteString("\n")
-					os.Stdout.Sync()
-				}
-			}
+					yn, _ := regexp.MatchString("http://fonts.googleapis.com/css.*", command)
+					if yn {
+						os.Stdout.WriteString(reg_str(command))
+						os.Stdout.Sync()
+					} else {
+						os.Stdout.WriteString("\n")
+						os.Stdout.Sync()
+					}
+				}*/
 		}
 	}
 
