@@ -19,7 +19,8 @@ http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js
 # Squid重定向器设置 #
 
 	#redirect_program 重定向器程序或脚本路径
-	redirect_program /usr/share/squid/goredirect
+	#goredirector重定向器程序 go build goredirector.go
+	redirect_program /usr/share/squid/goredirector
 
 	#redirect_children控制重定向器池的size。默认值是5 个进程
 	redirect_children 20
