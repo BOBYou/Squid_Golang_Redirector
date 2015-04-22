@@ -16,7 +16,7 @@ http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js
 
 
 
-Squid重定向器设置
+# Squid重定向器设置 #
 
 	#redirect_program 重定向器程序或脚本路径
 	redirect_program /usr/share/squid/goredirect
@@ -72,7 +72,8 @@ WARNING: redirector #2 (FD 18) exited
 
 假如 50%的重定向进程过早退出，squid 会以致命错误消息退出。
 
-参考文档：
+
+# 参考文档： #
 
 1. [golang终端输出进度更新的代码](http://golanghome.com/post/607 "http://golanghome.com/post/607")
 2. Squid 中文权威指南
