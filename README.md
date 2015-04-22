@@ -77,4 +77,5 @@ WARNING: redirector #2 (FD 18) exited
 
 1. [golang终端输出进度更新的代码](http://golanghome.com/post/607 "http://golanghome.com/post/607")
 2. Squid 中文权威指南
+3. [Python重定向器](http://eleveni386.7axu.com/posts/2013/10/13/squid-url-tiao-zhuan/)
 
